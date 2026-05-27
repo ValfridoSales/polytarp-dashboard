@@ -1,4 +1,5 @@
 import { ALL_MONTHS, ALL_CATEGORIES, CATEGORY_COLORS } from '../hooks/useSalesData';
+import polytarpLogo from '../assets/polytarp-logo.png';
 
 export default function Sidebar({ metric, setMetric, selectedMonths, setSelectedMonths, selectedCategories, setSelectedCategories }) {
   function toggleMonth(m) {
@@ -20,8 +21,7 @@ export default function Sidebar({ metric, setMetric, selectedMonths, setSelected
     <aside className="sidebar">
       {/* Logo */}
       <div className="sidebar-logo">
-        <div className="logo-mark">P</div>
-        <span className="logo-text">Polytarp</span>
+        <img src={polytarpLogo} alt="Polytarp" style={{ width: '100%', maxWidth: 160, height: 'auto' }} />
       </div>
 
       {/* Metric toggle */}
