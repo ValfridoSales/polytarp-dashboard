@@ -15,3 +15,9 @@ export function fmtPct(v) {
 export function fmtMetric(v, metric) {
   return metric === 'lbs' ? fmtLbs(v) : fmtCad(v);
 }
+
+// "Jan-26" → { cy: 2026, py: 2025 }
+export function yearFromMonth(monthStr) {
+  const yy = parseInt(monthStr.split('-')[1], 10);
+  return { cy: 2000 + yy, py: 1999 + yy };
+}

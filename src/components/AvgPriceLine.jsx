@@ -1,17 +1,19 @@
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';
-import { fmtCad } from '../utils/format';
+import { fmtCad, yearFromMonth } from '../utils/format';
 
 function CustomTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null;
+  const { cy: cyYear, py: pyYear } = yearFromMonth(label);
+  const yearLabel = { cy: cyYear, py: pyYear };
   return (
     <div className="chart-tooltip">
       <div className="tooltip-title">{label}</div>
       {payload.map(p => (
         <div key={p.dataKey} className="tooltip-row">
           <span className="dot" style={{ background: p.stroke }} />
-          {p.name}: {p.value != null ? fmtCad(p.value) + '/lb' : 'N/A'}
+          {yearLabel[p.dataKey] ?? p.name}: {p.value != null ? fmtCad(p.value) + '/lb' : 'N/A'}
         </div>
       ))}
     </div>
@@ -36,7 +38,7 @@ export default function AvgPriceLine({ data }) {
           <Line
             type="monotone"
             dataKey="cy"
-            name="CY"
+            name="Current Year"
             stroke="#2E75B6"
             strokeWidth={2}
             dot={{ r: 4 }}
@@ -46,7 +48,7 @@ export default function AvgPriceLine({ data }) {
           <Line
             type="monotone"
             dataKey="py"
-            name="PY"
+            name="Prior Year"
             stroke="#a0aec0"
             strokeWidth={2}
             strokeDasharray="5 4"

@@ -1,18 +1,19 @@
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';
-import { fmtMetric, fmtPct } from '../utils/format';
+import { fmtMetric, fmtPct, yearFromMonth } from '../utils/format';
 
 function CustomTooltip({ active, payload, label, metric }) {
   if (!active || !payload?.length) return null;
   const cy = payload.find(p => p.dataKey === 'cy')?.value ?? 0;
   const py = payload.find(p => p.dataKey === 'py')?.value ?? 0;
   const yoy = py > 0 ? ((cy - py) / py) * 100 : null;
+  const { cy: cyYear, py: pyYear } = yearFromMonth(label);
   return (
     <div className="chart-tooltip">
       <div className="tooltip-title">{label}</div>
-      <div className="tooltip-row"><span className="dot" style={{ background: '#2E75B6' }} />CY: {fmtMetric(cy, metric)}</div>
-      <div className="tooltip-row"><span className="dot" style={{ background: '#a0aec0' }} />PY: {fmtMetric(py, metric)}</div>
+      <div className="tooltip-row"><span className="dot" style={{ background: '#2E75B6' }} />{cyYear}: {fmtMetric(cy, metric)}</div>
+      <div className="tooltip-row"><span className="dot" style={{ background: '#a0aec0' }} />{pyYear}: {fmtMetric(py, metric)}</div>
       <div className="tooltip-row">YoY: {yoy != null ? fmtPct(yoy) : 'N/A'}</div>
     </div>
   );
@@ -28,7 +29,7 @@ export default function MonthlyTrendChart({ data, metric }) {
 
   return (
     <div className="chart-card">
-      <div className="chart-title">Monthly performance — CY vs PY</div>
+      <div className="chart-title">Monthly Performance — Year over Year</div>
       <ResponsiveContainer width="100%" height={280}>
         <BarChart data={data} margin={{ top: 8, right: 16, left: 8, bottom: 4 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
@@ -36,8 +37,8 @@ export default function MonthlyTrendChart({ data, metric }) {
           <YAxis tickFormatter={tickFmt} tick={{ fontSize: 11 }} width={60} />
           <Tooltip content={<CustomTooltip metric={metric} />} />
           <Legend />
-          <Bar dataKey="cy" name="CY" fill="#2E75B6" radius={[3, 3, 0, 0]} />
-          <Bar dataKey="py" name="PY" fill="#a0aec0" radius={[3, 3, 0, 0]} />
+          <Bar dataKey="cy" name="Current Year" fill="#2E75B6" radius={[3, 3, 0, 0]} />
+          <Bar dataKey="py" name="Prior Year" fill="#a0aec0" radius={[3, 3, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

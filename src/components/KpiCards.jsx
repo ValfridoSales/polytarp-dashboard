@@ -19,10 +19,10 @@ export default function KpiCards({ kpis, metric }) {
 
   return (
     <div className="kpi-row">
-      <KpiCard label="Total (CY)" value={fmt(cy)} />
-      <KpiCard label="Total (PY)" value={fmt(py)} />
+      <KpiCard label="Total — Current Year" value={fmt(cy)} />
+      <KpiCard label="Total — Prior Year" value={fmt(py)} />
       <KpiCard label="YoY Change" value={yoyDisplay} accent={yoyAccent} />
-      <KpiCard label="Avg $/lb (CY)" value={fmtCad(avgPrice)} sub="always in CAD$" />
+      <KpiCard label="Avg $/lb — Current Year" value={fmtCad(avgPrice)} sub="always in CAD$" />
       <KpiCard label="Top Category" value={topCat} />
     </div>
   );

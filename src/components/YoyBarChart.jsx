@@ -14,8 +14,8 @@ function CustomTooltip({ active, payload, metric }) {
   return (
     <div className="chart-tooltip">
       <div className="tooltip-title">{d.category}</div>
-      <div className="tooltip-row">CY: {fmtMetric(d.cy, metric)}</div>
-      <div className="tooltip-row">PY: {d.hasPY ? fmtMetric(d.py, metric) : 'N/A'}</div>
+      <div className="tooltip-row">Current Year: {fmtMetric(d.cy, metric)}</div>
+      <div className="tooltip-row">Prior Year: {d.hasPY ? fmtMetric(d.py, metric) : 'N/A'}</div>
       <div className="tooltip-row">
         Change: {d.hasPY ? (d.diff >= 0 ? '+' : '') + fmtMetric(d.diff, metric) : 'N/A'}
       </div>
