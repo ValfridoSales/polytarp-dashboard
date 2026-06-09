@@ -7,8 +7,20 @@ export const ALL_MONTHS = [
   'Mar-26','Apr-26',
 ];
 
-// Default view: most recent 6 months (where YoY comparisons are available)
-export const DEFAULT_MONTHS = ['Nov-25','Dec-25','Jan-26','Feb-26','Mar-26','Apr-26'];
+// Default view: most recent complete fiscal year (March → February)
+function computeFiscalYearMonths() {
+  const febs = ALL_MONTHS.filter(m => m.startsWith('Feb-'));
+  if (!febs.length) return ALL_MONTHS.slice(-6);
+  const latestFeb = febs[febs.length - 1];
+  const yy = parseInt(latestFeb.split('-')[1], 10);             // e.g. 26
+  const marchTag = 'Mar-' + String(yy - 1).padStart(2, '0');   // 'Mar-25'
+  const start = ALL_MONTHS.indexOf(marchTag);
+  const end   = ALL_MONTHS.indexOf(latestFeb);
+  return (start !== -1 && end !== -1) ? ALL_MONTHS.slice(start, end + 1) : ALL_MONTHS.slice(-6);
+}
+export const DEFAULT_MONTHS = computeFiscalYearMonths();
+// → ['Mar-25','Apr-25','May-25','Jun-25','Jul-25','Aug-25',
+//    'Sep-25','Oct-25','Nov-25','Dec-25','Jan-26','Feb-26']
 
 export const ALL_CATEGORIES = [
   'a.AG-BW', 'b.AUTO', 'c.GP', 'c.SSCF', 'c.SSix',

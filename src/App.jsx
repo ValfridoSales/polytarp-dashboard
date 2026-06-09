@@ -61,7 +61,7 @@ export default function App() {
                 selectedMonths.length === ALL_MONTHS.length ? [...DEFAULT_MONTHS] : [...ALL_MONTHS]
               )}
             >
-              {selectedMonths.length === ALL_MONTHS.length ? 'Last 6 months' : 'Show all 14 months'}
+              {selectedMonths.length === ALL_MONTHS.length ? 'Fiscal Year (FY26)' : 'Show all 14 months'}
             </button>
             <div className="header-metric-toggle">
               <button
