@@ -220,6 +220,30 @@
   margin-top: 1px;
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.show-all-btn {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 7px;
+  color: rgba(255,255,255,0.7);
+  font-size: 12px;
+  font-family: inherit;
+  padding: 5px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.show-all-btn:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+
 .header-metric-toggle {
   display: flex;
   border: 1px solid rgba(255,255,255,0.2);

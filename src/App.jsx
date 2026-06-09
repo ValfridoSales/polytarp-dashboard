@@ -6,7 +6,7 @@ import CategoryStackedBar from './components/CategoryStackedBar';
 import CategoryDonut from './components/CategoryDonut';
 import YoyBarChart from './components/YoyBarChart';
 import AvgPriceLine from './components/AvgPriceLine';
-import { useSalesData, ALL_MONTHS, ALL_CATEGORIES, LAST_DATE } from './hooks/useSalesData';
+import { useSalesData, ALL_MONTHS, DEFAULT_MONTHS, ALL_CATEGORIES, LAST_DATE } from './hooks/useSalesData';
 import './App.css';
 
 const lastDateFmt = new Date(LAST_DATE + 'T12:00:00').toLocaleDateString('en-CA', {
@@ -15,7 +15,7 @@ const lastDateFmt = new Date(LAST_DATE + 'T12:00:00').toLocaleDateString('en-CA'
 
 export default function App() {
   const [metric, setMetric] = useState('cad');
-  const [selectedMonths, setSelectedMonths] = useState([...ALL_MONTHS]);
+  const [selectedMonths, setSelectedMonths] = useState([...DEFAULT_MONTHS]);
   const [selectedCategories, setSelectedCategories] = useState([...ALL_CATEGORIES]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -54,19 +54,29 @@ export default function App() {
               <div className="header-sub">Polytarp Distribution — Data as of {lastDateFmt}</div>
             </div>
           </div>
-          <div className="header-metric-toggle">
+          <div className="header-right">
             <button
-              className={`metric-btn ${metric === 'lbs' ? 'active' : ''}`}
-              onClick={() => setMetric('lbs')}
+              className="show-all-btn"
+              onClick={() => setSelectedMonths(
+                selectedMonths.length === ALL_MONTHS.length ? [...DEFAULT_MONTHS] : [...ALL_MONTHS]
+              )}
             >
-              Lbs
+              {selectedMonths.length === ALL_MONTHS.length ? 'Last 6 months' : 'Show all 14 months'}
             </button>
-            <button
-              className={`metric-btn ${metric === 'cad' ? 'active' : ''}`}
-              onClick={() => setMetric('cad')}
-            >
-              CAD$
-            </button>
+            <div className="header-metric-toggle">
+              <button
+                className={`metric-btn ${metric === 'lbs' ? 'active' : ''}`}
+                onClick={() => setMetric('lbs')}
+              >
+                Lbs
+              </button>
+              <button
+                className={`metric-btn ${metric === 'cad' ? 'active' : ''}`}
+                onClick={() => setMetric('cad')}
+              >
+                CAD$
+              </button>
+            </div>
           </div>
         </header>
 

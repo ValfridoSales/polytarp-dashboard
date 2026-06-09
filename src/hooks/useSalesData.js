@@ -1,7 +1,14 @@
 import { useMemo } from 'react';
 import rawData from '../data/sales.json';
 
-export const ALL_MONTHS = ['Nov-25', 'Dec-25', 'Jan-26', 'Feb-26', 'Mar-26', 'Apr-26'];
+export const ALL_MONTHS = [
+  'Mar-25','Apr-25','May-25','Jun-25','Jul-25','Aug-25',
+  'Sep-25','Oct-25','Nov-25','Dec-25','Jan-26','Feb-26',
+  'Mar-26','Apr-26',
+];
+
+// Default view: most recent 6 months (where YoY comparisons are available)
+export const DEFAULT_MONTHS = ['Nov-25','Dec-25','Jan-26','Feb-26','Mar-26','Apr-26'];
 
 export const ALL_CATEGORIES = [
   'a.AG-BW', 'b.AUTO', 'c.GP', 'c.SSCF', 'c.SSix',
