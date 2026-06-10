@@ -388,6 +388,180 @@
   flex-shrink: 0;
 }
 
+/* ─── Tab bar ────────────────────────────────────────────── */
+
+.tab-bar {
+  display: flex;
+  background: #fff;
+  border-bottom: 2px solid #e2e8f0;
+  padding: 0 24px;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  padding: 11px 20px;
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+}
+.tab-btn:hover { color: #1e293b; }
+.tab-btn.active {
+  color: #2E75B6;
+  border-bottom-color: #2E75B6;
+  font-weight: 600;
+}
+
+/* ─── Fiscal year selector (sidebar) ─────────────────────── */
+
+.fy-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fy-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 9px 12px 8px;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  gap: 2px;
+  transition: background 0.15s, border-color 0.15s;
+}
+.fy-btn:hover { background: rgba(255,255,255,0.1); }
+.fy-btn.active {
+  background: rgba(46,117,182,0.22);
+  border-color: #2E75B6;
+}
+
+.fy-btn-year {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.fy-btn-range {
+  font-size: 10px;
+  color: rgba(255,255,255,0.45);
+}
+
+.fy-btn-badge {
+  margin-top: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+.fy-btn-badge.badge-complete {
+  background: rgba(34,197,94,0.2);
+  color: #4ade80;
+}
+.fy-btn-badge.badge-progress {
+  background: rgba(251,191,36,0.2);
+  color: #fbbf24;
+}
+
+/* ─── Chart subtitle ─────────────────────────────────────── */
+
+.chart-subtitle {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: -8px;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+/* ─── Coming Soon (Tab 3) ────────────────────────────────── */
+
+.coming-soon-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 48px 24px;
+}
+
+.coming-soon-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 44px 52px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+  border: 1px solid #e2e8f0;
+  max-width: 540px;
+  width: 100%;
+  text-align: center;
+}
+
+.coming-soon-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 12px;
+}
+
+.coming-soon-badge {
+  display: inline-block;
+  background: #fef3c7;
+  color: #b45309;
+  border: 1px solid #fde68a;
+  border-radius: 20px;
+  padding: 4px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.coming-soon-desc {
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.65;
+  margin: 0 0 28px;
+}
+
+.coming-soon-mockup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.mockup-row {
+  display: flex;
+  gap: 10px;
+}
+
+.mockup-block {
+  flex: 1;
+  height: 52px;
+  border-radius: 7px;
+  background: #e2e8f0;
+}
+
+.mockup-block.tall  { height: 90px; }
+.mockup-block.wide  { flex: 2; }
+
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.75; }
+}
+.skeleton { animation: skeletonPulse 1.8s ease-in-out infinite; }
+
 /* ─── Responsive: ≤ 900px ────────────────────────────────── */
 
 @media (max-width: 900px) {

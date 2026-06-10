@@ -14,7 +14,7 @@ function CustomTooltip({ active, payload, metric }) {
   );
 }
 
-export default function CategoryDonut({ data, metric, onSelectCategory }) {
+export default function CategoryDonut({ data, metric, fyYear, onSelectCategory }) {
   if (!data.length) return <div className="empty-state">No data for selected filters</div>;
 
   const total = data.reduce((s, d) => s + d.value, 0);
@@ -26,7 +26,7 @@ export default function CategoryDonut({ data, metric, onSelectCategory }) {
 
   return (
     <div className="chart-card">
-      <div className="chart-title">Category share (CY)</div>
+      <div className="chart-title">Category share{fyYear ? ` — FY${fyYear} YTD` : ''}</div>
       <div style={{ position: 'relative' }}>
         <ResponsiveContainer width="100%" height={300}>
           <PieChart>

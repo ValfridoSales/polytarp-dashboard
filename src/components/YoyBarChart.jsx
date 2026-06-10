@@ -8,14 +8,16 @@ function barColor(d) {
   return d.diff >= 0 ? '#22c55e' : '#ef4444';
 }
 
-function CustomTooltip({ active, payload, metric }) {
+function CustomTooltip({ active, payload, metric, fyYear }) {
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
+  const cyLbl = fyYear ? `FY${fyYear}`     : 'Current Year';
+  const pyLbl = fyYear ? `FY${fyYear - 1}` : 'Prior Year';
   return (
     <div className="chart-tooltip">
       <div className="tooltip-title">{d.category}</div>
-      <div className="tooltip-row">Current Year: {fmtMetric(d.cy, metric)}</div>
-      <div className="tooltip-row">Prior Year: {d.hasPY ? fmtMetric(d.py, metric) : 'N/A'}</div>
+      <div className="tooltip-row">{cyLbl}: {fmtMetric(d.cy, metric)}</div>
+      <div className="tooltip-row">{pyLbl}: {d.hasPY ? fmtMetric(d.py, metric) : 'N/A'}</div>
       <div className="tooltip-row">
         Change: {d.hasPY ? (d.diff >= 0 ? '+' : '') + fmtMetric(d.diff, metric) : 'N/A'}
       </div>
@@ -23,7 +25,7 @@ function CustomTooltip({ active, payload, metric }) {
   );
 }
 
-export default function YoyBarChart({ data, metric }) {
+export default function YoyBarChart({ data, metric, fyYear }) {
   if (!data.length) return <div className="empty-state">No data for selected filters</div>;
 
   const tickFmt = v => {
@@ -36,7 +38,7 @@ export default function YoyBarChart({ data, metric }) {
 
   return (
     <div className="chart-card">
-      <div className="chart-title">YoY change by category</div>
+      <div className="chart-title">YoY change by category{fyYear ? ` — FY${fyYear} vs FY${fyYear - 1}` : ''}</div>
       <ResponsiveContainer width="100%" height={Math.max(240, data.length * 32 + 40)}>
         <BarChart
           data={data}
@@ -46,7 +48,7 @@ export default function YoyBarChart({ data, metric }) {
           <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" horizontal={false} />
           <XAxis type="number" tickFormatter={tickFmt} tick={{ fontSize: 11 }} />
           <YAxis type="category" dataKey="category" tick={{ fontSize: 11 }} width={maxWidth} />
-          <Tooltip content={<CustomTooltip metric={metric} />} />
+          <Tooltip content={<CustomTooltip metric={metric} fyYear={fyYear} />} />
           <Bar dataKey="diff" radius={[0, 3, 3, 0]}>
             {data.map((entry, i) => (
               <Cell key={i} fill={barColor(entry)} />

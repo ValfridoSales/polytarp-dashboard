@@ -1,20 +1,30 @@
-import { ALL_MONTHS, ALL_CATEGORIES, CATEGORY_COLORS } from '../hooks/useSalesData';
+import { ALL_CATEGORIES, CATEGORY_COLORS, ALL_MONTHS } from '../hooks/useSalesData';
+import { getAvailableFYs, getFYStatus } from '../utils/fiscalYear';
 import polytarpLogo from '../assets/polytarp-logo.png';
 
-export default function Sidebar({ metric, setMetric, selectedMonths, setSelectedMonths, selectedCategories, setSelectedCategories }) {
-  function toggleMonth(m) {
-    setSelectedMonths(prev =>
-      prev.includes(m) ? (prev.length > 1 ? prev.filter(x => x !== m) : prev) : [...prev, m]
-    );
-  }
+const AVAILABLE_FYS = getAvailableFYs(ALL_MONTHS);
 
+function fyBadge(fy) {
+  const status = getFYStatus(fy, ALL_MONTHS);
+  if (status === 'Complete')    return { label: 'Complete',    cls: 'badge-complete'    };
+  if (status === 'In Progress') return { label: 'In Progress', cls: 'badge-progress' };
+  return null;
+}
+
+export default function Sidebar({
+  activeTab,
+  metric, setMetric,
+  selectedFY, setSelectedFY,
+  selectedCategories, setSelectedCategories,
+}) {
   function toggleCategory(c) {
     setSelectedCategories(prev =>
-      prev.includes(c) ? (prev.length > 1 ? prev.filter(x => x !== c) : prev) : [...prev, c]
+      prev.includes(c)
+        ? (prev.length > 1 ? prev.filter(x => x !== c) : prev)
+        : [...prev, c]
     );
   }
 
-  const allMonthsSelected = selectedMonths.length === ALL_MONTHS.length;
   const allCatsSelected = selectedCategories.length === ALL_CATEGORIES.length;
 
   return (
@@ -43,61 +53,65 @@ export default function Sidebar({ metric, setMetric, selectedMonths, setSelected
         </div>
       </div>
 
-      {/* Month filter */}
-      <div className="sidebar-section">
-        <div className="sidebar-section-header">
-          <div className="sidebar-section-title">Months</div>
-          <button
-            className="filter-link"
-            onClick={() => setSelectedMonths(allMonthsSelected ? [ALL_MONTHS[ALL_MONTHS.length - 1]] : [...ALL_MONTHS])}
-          >
-            {allMonthsSelected ? 'Clear' : 'All'}
-          </button>
+      {/* Fiscal year selector — Tab 1 only */}
+      {activeTab === 'yoy' && (
+        <div className="sidebar-section">
+          <div className="sidebar-section-title">Fiscal Year</div>
+          <div className="fy-selector">
+            {AVAILABLE_FYS.map(fy => {
+              const badge = fyBadge(fy);
+              return (
+                <button
+                  key={fy}
+                  className={`fy-btn ${selectedFY === fy ? 'active' : ''}`}
+                  onClick={() => setSelectedFY(fy)}
+                >
+                  <span className="fy-btn-year">FY{fy}</span>
+                  <span className="fy-btn-range">
+                    Mar {String(fy).slice(-2)} – Feb {String(fy + 1).slice(-2)}
+                  </span>
+                  {badge && (
+                    <span className={`fy-btn-badge ${badge.cls}`}>{badge.label}</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
-        <div className="filter-list">
-          {ALL_MONTHS.map(m => (
-            <label key={m} className="filter-item">
-              <input
-                type="checkbox"
-                checked={selectedMonths.includes(m)}
-                onChange={() => toggleMonth(m)}
-                className="filter-checkbox"
-              />
-              <span>{m}</span>
-            </label>
-          ))}
-        </div>
-      </div>
+      )}
 
-      {/* Category filter */}
-      <div className="sidebar-section">
-        <div className="sidebar-section-header">
-          <div className="sidebar-section-title">Categories</div>
-          <button
-            className="filter-link"
-            onClick={() => setSelectedCategories(allCatsSelected ? [ALL_CATEGORIES[0]] : [...ALL_CATEGORIES])}
-          >
-            {allCatsSelected ? 'Clear' : 'All'}
-          </button>
+      {/* Category filter — all tabs except Salesperson */}
+      {activeTab !== 'salesperson' && (
+        <div className="sidebar-section">
+          <div className="sidebar-section-header">
+            <div className="sidebar-section-title">Categories</div>
+            <button
+              className="filter-link"
+              onClick={() =>
+                setSelectedCategories(
+                  allCatsSelected ? [ALL_CATEGORIES[0]] : [...ALL_CATEGORIES]
+                )
+              }
+            >
+              {allCatsSelected ? 'Clear' : 'All'}
+            </button>
+          </div>
+          <div className="filter-list">
+            {ALL_CATEGORIES.map(c => (
+              <label key={c} className="filter-item">
+                <input
+                  type="checkbox"
+                  checked={selectedCategories.includes(c)}
+                  onChange={() => toggleCategory(c)}
+                  className="filter-checkbox"
+                />
+                <span className="cat-swatch" style={{ background: CATEGORY_COLORS[c] }} />
+                <span className="cat-label">{c}</span>
+              </label>
+            ))}
+          </div>
         </div>
-        <div className="filter-list">
-          {ALL_CATEGORIES.map(c => (
-            <label key={c} className="filter-item">
-              <input
-                type="checkbox"
-                checked={selectedCategories.includes(c)}
-                onChange={() => toggleCategory(c)}
-                className="filter-checkbox"
-              />
-              <span
-                className="cat-swatch"
-                style={{ background: CATEGORY_COLORS[c] }}
-              />
-              <span className="cat-label">{c}</span>
-            </label>
-          ))}
-        </div>
-      </div>
+      )}
     </aside>
   );
 }
